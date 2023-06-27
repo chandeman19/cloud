@@ -29,115 +29,26 @@
 </head>
 
 <body>
-
-  <nav class="nav-extended nav-full-header indigo lighten-2">
-
-    <div class="nav-wrapper container">
-      <a href="/" class="brand-logo"><i class="material-icons">terrain</i>EarthQuake</a>
-
-      <ul class="right hide-on-med-and-down">
-        <li><a href="/">About Us</a></li>
-        {% if not session.user_name %}
-        <li><a href="#signUpModal">SignUp</a></li>
-        <li><a href="#signInModal">SignIn</a></li>
-        {% else %}
-        <li><a href="/signout">SignOut</a></li>
-        <li><a href="#">{{session.user_name}}</a></li>
-        {% endif %}
-      </ul>
-
-
-    </div>
-    <div class="nav-header valign-wrapper">
-      <div id="map"></div>
-
-    </div>
-    <div class="filter-wrapper cyan darken-3">
-      <div class="filter-container pin-top" style="top: 0px;">
-        <ul class="filters container">
-          <li class="active"><a href="#all">All</a></li>
-          <li><a href="#asia">Asia</a></li>
-          <li><a href="#europe">Europe</a></li>
-          <li><a href="#america">America</a></li>
-          <li><a href="#africa">Africa</a></li>
-        </ul>
-      </div>
-    </div>
-
-
-  </nav>
-
-  <div id="signUpModal" class="modal">
-    <div class="modal-content">
-      <h4>SignUp</h4>
-      <div class="row">
-        <form class="col s12" action="/signup" method="post" id="signUpForm">
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="name" name = "username" type="text" class="validate">
-              <label for="name">Name</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="email" name="email" type="email" class="validate">
-              <label for="email">Email</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="password" name="password" type="password" class="validate">
-              <label for="password">Password</label>
-            </div>
-          </div>
-
-
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a class="modal-action modal-close waves-effect waves-green btn-flat" onclick="$('#signUpForm').submit();">Agree</a>
-    </div>
-  </div>
-  <div id="signInModal" class="modal">
-    <div class="modal-content">
-      <h4>SignIn</h4>
-      <div class="row">
-        <form class="col s12" action="/signin" method="POST" id="signInForm">
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="email2" type="email" class="validate" name="email">
-              <label for="email2">Email</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="password2" type="password" class="validate" name="password">
-              <label for="password2">Password</label>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!"
-      class="modal-action modal-close waves-effect waves-green btn-flat"
-      onclick="$('#signInForm').submit();"
-      >Sign In</a>
-    </div>
-  </div>
-
-
-
-  <div id="postingModal" class="modal">
-    <div class="modal-content">
-      <h4>Posting</h4>
-      <div class="row">
+      <section id="products">
+        <h3>Discover Our Products</h3>
+        <div class="product-category">
+          <h4>Snacks</h4>
+          <p>Indulge in our delectable range of snacks, from crispy potato chips to savory popcorn. Each bite is packed with flavor and made with the finest ingredients.</p>
+        </div>
+        <div class="product-category">
+          <h4>Beverages</h4>
+          <p>Quench your thirst with our refreshing beverages. Whether you prefer a fruity twist or a revitalizing energy drink, we have something to suit every palate.</p>
+        </div>
+        <div class="product-category">
+          <h4>Condiments</h4>
+          <p>Elevate your meals with our range of flavorful condiments. From tangy sauces to aromatic spices, we have the perfect accompaniments for your culinary adventures.</p>
+        </div>
+      </section>
+      <div>
         <form class="col s12" id="postingForm" enctype="multipart/form-data">
           <div class="row">
             <div class="input-field col s12">
               <input id="title" name = "title" type="text" class="validate">
-              <label for="title">Title</label>
             </div>
           </div>
 
@@ -158,64 +69,11 @@
               <input id="content" name="content" type="text" class="validate">
               <label for="content">Describe product above</label>
             </div>
-            <p>At Chande Group of Companies, we are a team of passionate individuals dedicated to delivering exceptional food products. Our team consists of talented individuals who bring their expertise and enthusiasm to every aspect of our business.</p>
           </div>
 
         </form>
       </div>
-    </div>
-    <div class="modal-footer">
-      <a class="modal-action modal-close waves-effect waves-green btn-flat"
-      onclick="$('#postingForm').submit();">Upload</a>
-    </div>
-  </div>
 
-
-
-
-
-
-  <div id="portfolio" class="section gray">
-    <div class="container">
-      <div class="post row">
-        <div class="col l4 m6 s12 post-item post-filter all posting-card" style="position: absolute; left: 0px; top: 0px;">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">Write</span>
-              <p>Please leave your situation.</p>
-            </div>
-            <div class="card-action">
-              {% if not session.user_name %}
-              <a href="#signInModal">Write</a>
-              {% else %}
-              <a href="#postingModal">Write</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-        {% for post in posts %}
-        <div class="col l4 m6 s12 post-item post-expand post-filter asia">
-          <div class="post-curve-wrapper">
-            <a class="post-cover gray">
-              {% if post.picture_url %}
-              <img class="responsive-img" src="{{config.STATIC_ROOT}}{{post.picture_url}}" alt="placeholder">
-              {% else %}
-              <img class="responsive-img" src="https://placehold.it/400x250" alt="placeholder">
-              {% endif %}
-
-            </a>
-            <div class="post-header">
-              <h5>{{post.title}}</h5>
-              <a href="#">{{post.user_name}}</a>
-              <span class="truncate">{{post.content}}</span>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  <script>
   $(document).ready(function(){
 
     $('.modal').modal();
@@ -353,5 +211,24 @@
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Wzy5iaibmnkxwSWvzQVlGhMCCsrKK80&callback=initMap&language=en">
   </script>
+
+
+  <section id="about">
+    <h3>About Chande Group of Companies</h3>
+    <p>At Chande Group of Companies, we are a team of passionate individuals dedicated to delivering exceptional food products. Our team consists of talented individuals who bring their expertise and enthusiasm to every aspect of our business.</p>
+    <h4>Meet Our Team</h4>
+    <ul>
+      <li>Salim - The visionary leader with a keen eye for innovation and business development.</li>
+      <li>Muhammad - The culinary expert who crafts our mouthwatering recipes and ensures top-notch quality.</li>
+      <li>Othman - The marketing whiz who spreads the word about our delectable products and engages with our valued customers.</li>
+      <li>Abdillahi - The logistics mastermind who ensures smooth operations and timely delivery of our products.</li>
+      <li>Mwinchande - The creative genius behind our captivating branding and visual identity.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 Chande Group of Companies. All rights reserved.</p>
+  </footer>
 </body>
+
 </html>
